@@ -20,7 +20,12 @@ ContactManager.StaticView = Marionette.ItemView.extend({
     template: "#static-template"
 });
 
-ContactManager.Contact = Backbone.Model.extend({});
+ContactManager.Contact = Backbone.Model.extend({
+    defaults:{
+        firstName: "Carlos",
+        lastName: "Ledezma"
+    }
+});
 
 /**
  * Instantiates the Layout view to manage child views,
@@ -50,7 +55,6 @@ ContactManager.on("before:start", ()=>{
 ContactManager.on("start",()=>{
 
     const alice = new ContactManager.Contact({
-        firstName: "Alice",
         lastName: "Arten",
         phoneNumber: "555-0184"
     });
