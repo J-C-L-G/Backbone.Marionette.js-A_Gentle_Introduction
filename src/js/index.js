@@ -42,7 +42,13 @@ ContactManager.on("before:start", ()=>{
     });
 
     ContactManager.ContactView = Marionette.ItemView.extend({
-        template: "#contact-template"
+        template: "#contact-template",
+        events: {
+            "click p#phoneNumber" : "alertPhoneNumber"
+        },
+        alertPhoneNumber(event){
+            alert(this.model.escape("phoneNumber"));
+        }
     });
 
     ContactManager.regions = new RegionContainer();
