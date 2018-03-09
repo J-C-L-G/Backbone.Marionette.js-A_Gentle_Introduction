@@ -16,8 +16,25 @@ const ContactManager = new Marionette.Application({});
 /**
  * Assigns the view constructor as an Application's property.
  */
+
 ContactManager.StaticView = Marionette.ItemView.extend({
     template: "#static-template"
+});
+
+
+ContactManager.ContactView = Marionette.ItemView.extend({
+    template: "#contact-list-item",
+    events: {
+        "click span#phoneNumber" : "alertPhoneNumber"
+    },
+    alertPhoneNumber(event){
+        alert(this.model.escape("phoneNumber"));
+    }
+});
+
+ContactManager.ContactsCollectionView = Marionette.CollectionView.extend({
+    tagName: "ul",
+    childView: ContactManager.ContactView
 });
 
 ContactManager.Contact = Backbone.Model.extend({
@@ -26,6 +43,11 @@ ContactManager.Contact = Backbone.Model.extend({
         lastName: "Ledezma"
     }
 });
+
+ContactManager.ContactCollection = Backbone.Collection.extend({
+    model: ContactManager.Contact
+});
+
 
 /**
  * Instantiates the Layout view to manage child views,
@@ -41,16 +63,6 @@ ContactManager.on("before:start", ()=>{
         }
     });
 
-    ContactManager.ContactView = Marionette.ItemView.extend({
-        template: "#contact-template",
-        events: {
-            "click p#phoneNumber" : "alertPhoneNumber"
-        },
-        alertPhoneNumber(event){
-            alert(this.model.escape("phoneNumber"));
-        }
-    });
-
     ContactManager.regions = new RegionContainer();
 });
 
@@ -60,23 +72,32 @@ ContactManager.on("before:start", ()=>{
  */
 ContactManager.on("start",()=>{
 
-    const alice = new ContactManager.Contact({
-        lastName: "Arten",
-        phoneNumber: "555-0184"
-    });
+    const collection = new ContactManager.ContactCollection([
+        {
+            firstName: "Alice",
+            lastName: "Arten",
+            phoneNumber: "555-0184"
+        },
+        {
+            lastName: "Ledezma",
+            phoneNumber: "123-0184",
+        },
+        {
+            lastName: "Garcia",
+            phoneNumber: "456-0184"
+        }
+    ]);
 
-    const mainStaticView = new ContactManager.StaticView({
-        template: "#static-template"
-    });
+    const mainStaticView = new ContactManager.StaticView({});
     const secondaryStaticView = new ContactManager.StaticView({
         template: "#different-static-template"
     });
-    const contactStaticView = new ContactManager.ContactView({
-        model: alice
+    const contactListView = new ContactManager.ContactsCollectionView({
+        collection: collection
     });
 
     ContactManager.regions.main.show(mainStaticView);
-    ContactManager.regions.contact.show(contactStaticView);
+    ContactManager.regions.contact.show(contactListView);
     ContactManager.regions.secondary.show(secondaryStaticView);
 
     console.log("ContactManager has started!");

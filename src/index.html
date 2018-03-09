@@ -33,9 +33,11 @@
             <p>Text from a different template...</p>
         </script>
 
-        <script type="text/template" id="contact-template">
-            <p><%- firstName %> <%- lastName %></p>
-            <p id="phoneNumber"><%- phoneNumber %></p>
+        <script type="text/template" id="contact-list-item">
+            <li>
+                <span><%- firstName %> <%- lastName %></span>
+                <span id="phoneNumber"><%- phoneNumber %></span>
+            </li>
         </script>
 
         <!-- Scripts -->
