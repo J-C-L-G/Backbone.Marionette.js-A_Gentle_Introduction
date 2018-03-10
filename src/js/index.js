@@ -46,7 +46,8 @@ ContactManager.Contact = Backbone.Model.extend({
 });
 
 ContactManager.ContactCollection = Backbone.Collection.extend({
-    model: ContactManager.Contact
+    model: ContactManager.Contact,
+    comparator: "firstName"
 });
 
 
@@ -86,7 +87,12 @@ ContactManager.on("start",()=>{
         {
             lastName: "Garcia",
             phoneNumber: "456-0184"
-        }
+        },
+        {
+            firstName: "Alice",
+            lastName: "Branston",
+            phoneNumber: "55-184"
+        },
     ]);
 
     const mainStaticView = new ContactManager.StaticView({});
