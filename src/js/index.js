@@ -24,6 +24,7 @@ ContactManager.StaticView = Marionette.ItemView.extend({
 
 ContactManager.ContactView = Marionette.ItemView.extend({
     template: "#contact-list-item",
+    tagName: "li",
     events: {
         "click span#phoneNumber" : "alertPhoneNumber"
     },
