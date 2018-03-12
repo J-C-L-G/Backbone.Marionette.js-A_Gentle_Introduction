@@ -47,8 +47,18 @@ ContactManager.Contact = Backbone.Model.extend({
 
 ContactManager.ContactCollection = Backbone.Collection.extend({
     model: ContactManager.Contact,
-    comparator: "firstName"
-});
+    comparator(model1, model2){
+        if(model1.get("firstName") !== model2.get("firsName")){
+            return (model1.get("firstName") < model2.get("firstName")) ? -1 : 1;
+        }else if(model1.get("lastName") !== model2.get("lastName")){
+            return (model1.get("lastName") < model2.get("lastName")) ? -1 : 1;
+        }
+        else{
+            return 0;
+        }
+    }
+}
+);
 
 
 /**
@@ -76,8 +86,13 @@ ContactManager.on("start",()=>{
 
     const collection = new ContactManager.ContactCollection([
         {
+            firstName: "Zawn",
+            lastName: "Zawl",
+            phoneNumber: "555-0184"
+        },
+        {
             firstName: "Alice",
-            lastName: "Arten",
+            lastName: "Brarten",
             phoneNumber: "555-0184"
         },
         {
@@ -90,7 +105,7 @@ ContactManager.on("start",()=>{
         },
         {
             firstName: "Alice",
-            lastName: "Branston",
+            lastName: "Aranston",
             phoneNumber: "55-184"
         },
     ]);
